@@ -8,16 +8,16 @@ float get_pixel(image im, int x, int y, int c)
 {
     int w, h, k;
 
-    w = clamp(im.w, x);
-    h = clamp(im.h, y);
-    k = clamp(im.c, c);
+    w = clamp_index(im.w, x);
+    h = clamp_index(im.h, y);
+    k = clamp_index(im.c, c);
     
     int index = w + im.w * h + im.h * im.w * k;
     
     return im.data[index];
 }
 
-int clamp(int bound, int value) {
+int clamp_index(int bound, int value) {
     if (value < 0) return 0;
     if (value >= bound) return bound - 1;
     return value;
@@ -98,9 +98,24 @@ void shift_image(image im, int c, float v)
 
 void clamp_image(image im)
 {
-    // TODO Fill this in
+    int w = im.w, h = im.h, c = im.c;
+
+    for (int k = 0; k < c; ++k) {
+        for (int i = 0; i < h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                int index = j + i * w  + k * w * h;
+                im.data[index] = clamp_value(im.data[index]);
+            }
+        }
+    }
 }
 
+float clamp_value(float v) {
+    if (v < 0.0) return 0.0;
+    if (v > 1.0) return 1.0;
+    return v;
+
+}
 
 // These might be handy
 float three_way_max(float a, float b, float c)
