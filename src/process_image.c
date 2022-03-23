@@ -52,7 +52,7 @@ void set_pixel(image im, int x, int y, int c, float v)
 image copy_image(image im)
 {
     image copy = make_image(im.w, im.h, im.c);
-    
+
     float * dst = copy.data;
     float * src = im.data;
 
@@ -64,6 +64,24 @@ image rgb_to_grayscale(image im)
 {
     assert(im.c == 3);
     image gray = make_image(im.w, im.h, 1);
+
+    int w = im.w, h = im.h;
+    int i, j;
+
+    for (i = 0; i < h; ++i) {
+        for (j = 0; j < w; ++j) {
+            float gama;
+            int index_r = j + w * i + 0 * w * h;
+            int index_g = j + w * i + 1 * w * h;
+            int index_b = j + w * i + 2 * w * h;
+            
+            gama = im.data[index_r] * 0.299 + im.data[index_g] * 0.587 + im.data[index_b] * 0.113;
+
+            gray.data[j + w * i] = gama;
+        }
+    }
+    
+
     // TODO Fill this in
     return gray;
 }
