@@ -130,7 +130,64 @@ float three_way_min(float a, float b, float c)
 
 void rgb_to_hsv(image im)
 {
-    // TODO Fill this in
+    int w = im.w, h = im.h;
+
+    for (int i = 0; i < h; ++i) {
+        for (int j = 0; j < w; ++j) {
+            int index_r = j + w * i + 0 * w * h;
+            int index_g = j + w * i + 1 * w * h;
+            int index_b = j + w * i + 2 * w * h;
+
+            float red = im.data[index_r], green = im.data[index_g], blue = im.data[index_b];
+
+            float v = three_way_max(red, green, blue);
+            float min = three_way_min(red, green, blue);
+            
+            float C = v - min;
+            float s = (v == 0) ? 0.0 : C / v;
+            
+            float h_prime, h;
+
+            if ( C == 0 ) {
+                h = 0;
+
+                im.data[index_r] = h;
+                im.data[index_g] = s;
+                im.data[index_b] = v;
+                continue;
+            }
+            if ( v == red ) {
+                h_prime = (green - blue) / C;
+                h = (h_prime < 0) ? h_prime / 6 + 1 : h_prime / 6;
+                
+                im.data[index_r] = h;
+                im.data[index_g] = s;
+                im.data[index_b] = v;
+                continue;
+            }
+
+            if ( v == green ) {
+                h_prime = (blue - red) / C + 2;
+                h = (h_prime < 0) ? h_prime / 6 + 1 : h_prime / 6;
+                
+                im.data[index_r] = h;
+                im.data[index_g] = s;
+                im.data[index_b] = v;
+                continue;
+            }
+
+            if ( v == blue ) {
+                h_prime = (red - green) / C + 4;
+                h = (h_prime < 0) ? h_prime / 6 + 1 : h_prime / 6;
+                
+                im.data[index_r] = h;
+                im.data[index_g] = s;
+                im.data[index_b] = v;
+                continue;
+            }
+
+        }
+    }
 }
 
 void hsv_to_rgb(image im)
