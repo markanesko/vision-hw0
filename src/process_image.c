@@ -6,8 +6,18 @@
 
 float get_pixel(image im, int x, int y, int c)
 {
-    // TODO Fill this in
-    return 0;
+    int w = x, h = y, k = c;
+    
+    if (x < 0) w = 0;
+    if (x >= im.w) w = im.w - 1;
+    if (y < 0) h = 0;
+    if (y >= im.h) h = im.h - 1;
+    if (c < 0) k = 0;
+    if (c >= im.c) k = im.c - 1;
+    
+    int index = w + im.w * h + im.h * im.w * k;
+    
+    return im.data[index];
 }
 
 void set_pixel(image im, int x, int y, int c, float v)
