@@ -52,7 +52,11 @@ void set_pixel(image im, int x, int y, int c, float v)
 image copy_image(image im)
 {
     image copy = make_image(im.w, im.h, im.c);
-    // TODO Fill this in
+    
+    float * dst = copy.data;
+    float * src = im.data;
+
+    memcpy(dst, src, im.w * im.h * im.c * sizeof(float));
     return copy;
 }
 
