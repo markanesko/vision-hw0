@@ -16,7 +16,9 @@ void rgb_to_hsv(image im);
 void hsv_to_rgb(image im);
 void shift_image(image im, int c, float v);
 void clamp_image(image im);
-
+int clamp_index(int bound, int value);
+int check_bound(int bound, int value);
+float clamp_value(float v);
 
 // Loading and saving
 image make_image(int w, int h, int c);
