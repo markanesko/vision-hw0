@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <math.h>
 #include "image.h"
 
@@ -192,5 +193,73 @@ void rgb_to_hsv(image im)
 
 void hsv_to_rgb(image im)
 {
-    // TODO Fill this in
+    int w = im.w, h = im.h;
+
+    for (int i = 0; i < h; ++i) {
+        for (int j = 0; j < w; ++j) {
+            int index_h = j + w * i + 0 * w * h;
+            int index_s = j + w * i + 1 * w * h;
+            int index_v = j + w * i + 2 * w * h;
+
+            int index_r = index_h;
+            int index_g = index_s;
+            int index_b = index_v;
+
+            float hue = im.data[index_h], saturation = im.data[index_s], value = im.data[index_v];
+            float C = value * saturation;
+            float red, green, blue;
+
+            float h_prime = hue * 6;
+
+            float X = C * (1 - abs(fmod(h_prime, 2) - 1));
+
+            float m = value - C;
+
+            if (h_prime >= 0  && h_prime < 1) {
+                red = C + m;
+                green = X + m;
+                blue = 0 + m;
+                im.data[index_r] = red;
+                im.data[index_g] = green;
+                im.data[index_b] = blue;
+            } else if (h_prime >= 1  && h_prime < 2) {
+                red = C + m;
+                green = X + m;
+                blue = 0 + m;
+                im.data[index_r] = red;
+                im.data[index_g] = green;
+                im.data[index_b] = blue;
+            } else if (h_prime >= 2 && h_prime < 3) {
+                red = C + m;
+                green = X + m;
+                blue = 0 + m;
+                im.data[index_r] = red;
+                im.data[index_g] = green;
+                im.data[index_b] = blue;
+            } else if (h_prime >= 3  && h_prime < 4) {
+                red = C + m;
+                green = X + m;
+                blue = 0 + m;
+                im.data[index_r] = red;
+                im.data[index_g] = green;
+                im.data[index_b] = blue;
+            } else if (h_prime >= 4 && h_prime < 5) {
+                red = C + m;
+                green = X + m;
+                blue = 0 + m;
+                im.data[index_r] = red;
+                im.data[index_g] = green;
+                im.data[index_b] = blue;
+            } else if (h_prime >= 5 && h_prime < 6) {
+                red = C + m;
+                green = X + m;
+                blue = 0 + m;
+                im.data[index_r] = red;
+                im.data[index_g] = green;
+                im.data[index_b] = blue;
+            }
+
+        
+        }
+    }
 }
