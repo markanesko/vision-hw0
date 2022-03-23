@@ -80,15 +80,20 @@ image rgb_to_grayscale(image im)
             gray.data[j + w * i] = gama;
         }
     }
-    
 
-    // TODO Fill this in
     return gray;
 }
 
 void shift_image(image im, int c, float v)
 {
-    // TODO Fill this in
+    int w = im.w, h = im.h;
+
+    for (int i = 0; i < h; ++i) {
+        for (int j = 0; j < w; ++j) {
+            int index = j + w * i + c * w * h;
+            im.data[index] += v;
+        }
+    }
 }
 
 void clamp_image(image im)
