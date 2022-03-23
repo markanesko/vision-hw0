@@ -6,18 +6,21 @@
 
 float get_pixel(image im, int x, int y, int c)
 {
-    int w = x, h = y, k = c;
-    
-    if (x < 0) w = 0;
-    if (x >= im.w) w = im.w - 1;
-    if (y < 0) h = 0;
-    if (y >= im.h) h = im.h - 1;
-    if (c < 0) k = 0;
-    if (c >= im.c) k = im.c - 1;
+    int w, h, k;
+
+    w = clamp(im.w, x);
+    h = clamp(im.h, y);
+    k = clamp(im.c, c);
     
     int index = w + im.w * h + im.h * im.w * k;
     
     return im.data[index];
+}
+
+int clamp(int bound, int value) {
+    if (value < 0) return 0;
+    if (value >= bound) return bound - 1;
+    return value;
 }
 
 void set_pixel(image im, int x, int y, int c, float v)
