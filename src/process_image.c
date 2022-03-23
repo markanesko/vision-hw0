@@ -23,9 +23,30 @@ int clamp(int bound, int value) {
     return value;
 }
 
+int check_bound(int bound, int value) {
+    if (value < 0) return -1;
+    if (value >= bound) return -1;
+    return 0;
+}
+
 void set_pixel(image im, int x, int y, int c, float v)
 {
-    // TODO Fill this in
+    int w = x, h = y, k = c;
+
+    if (check_bound(im.w, x) == -1){
+        return;
+    }
+    if (check_bound(im.h, y) == -1){
+        return;
+    }
+    if (check_bound(im.c, c) == -1){
+        return;
+    }
+    
+    int index = w + im.w * h + im.h * im.w * k;
+
+    im.data[index] = v;
+    return;
 }
 
 image copy_image(image im)
